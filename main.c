@@ -26,17 +26,6 @@ struct line{
 };
 
 typedef struct line line_t;
-//  * (  0,   0,   0) -> Schwarz
- //  * (255, 255, 255) -> Weiss
-//  * (255,   0,   0) -> Rot
-//  * (255, 255,   0) -> Gelb
-//  * (  0, 255,   0) -> Gruen
-//  * (  0, 255, 255) -> Tuerkis
-//  * (  0,   0, 255) -> Blau
-//  * (255,   0, 255) -> Violett
-void Farbenerstellung(){
-
-}
 
 
 
@@ -51,7 +40,6 @@ vector_t vector_minus(vector_t a, vector_t b){
 
 //Vorbereitungsaufgabe 6 c
 double vector_length(vector_t r){
-    //return vector_create( sqrt(r.x* r.x + r.y*r.y));
     return sqrt(r.x*r.x + r.y*r.y);
 }
 
@@ -78,176 +66,6 @@ vector_t vector_orthogonal(vector_t r){
 }
 
 
-
-/*void LinienZuDenToren(){
-    while(1){
-     //void add_line(vector_t start, vector_t end, color_t color, double thickness);   
-        
-        robot_t RoboterDaten = robot();
-        goal_t TordatenGegner = their_goal();
-        goal_t TordatenTeam = our_goal();
-        
-        color_t white = color_create(0,0,0);
-        color_t black = color_create(255,255,255);
-        
-        
-        add_line(RoboterDaten.position, TordatenGegner.left, white, 0.1);
-        add_line(RoboterDaten.position, TordatenGegner.right, white, 0.1);
-
-        add_line(RoboterDaten.position, TordatenTeam.left, black, 0.1);
-        add_line(RoboterDaten.position, TordatenTeam.right, black, 0.1);
-        
-        draw_lines();
-    }
-}*/
-/*
-
-
-void Schiessblah(double x, double y, double w){
-    while(1){
-        double SollAbstand = 0.4;
-        ball_t b = ball();
-        vector_t DahinMussIch = vector_create(x, y);
-        ziele(b, DahinMussIch, SollAbstand);
-        if(    x-w/2 < b.position.x
-            && x+w/2 > b.position.x
-            && y-w/2 < b.position.y
-            && y+w/2 > b.position.y
-        ){
-            return;
-        }
-    }
-}
-
-void Vektoren_zeichnen(vector_t z, double SollAbstand){
-    
-    color_t Eins = color_create(0,0,0);
-    color_t zwei = color_create(0,0,255);
-    color_t drei = color_create(0,255,0);
-    color_t vier = color_create(0,255,255);
-    color_t fuenf = color_create(255,0,0);
-    color_t sechs = color_create(255,0,255);
-    color_t sieben = color_create(255,255,0);
-    color_t acht = color_create(255,255,255);
-    ball_t B_I = ball();
-    robot_t R_I = robot();
-    
-    //B = Ballposition
-    //Z = Zielposition
-    //R = Roboterposition
-    //S = Sollposition
-    //SO = Sollpositionorthogonal
-    vector_t V1_B_Z = vector_minus(z, B_I.position);
-    vector_t V2_B_S = vector_times(V1_B_Z, -1);
-    double L_B_S = vector_length(V2_B_S);
-
-    vector_t E_V1_B_Z = vector_times(V1_B_Z, 1/vector_length(V1_B_Z));
-    vector_t E_V2_B_S = vector_times(V2_B_S, 1/L_B_S);
-    vector_t S_V2_B_S = vector_times(E_V2_B_S, SollAbstand);
-    vector_t S_V2_B_S_BP = vector_plus(S_V2_B_S, B_I.position);
-    
-    vector_t V1_R_B = vector_minus(R_I.position, B_I.position);
-    vector_t V1_R_S = vector_plus(V1_R_B, S_V2_B_S);
-    double L_R_S = vector_length(V1_R_S);
-    vector_t E_V1_R_S = vector_times(V1_R_S, 1/L_R_S);
-    
-    vector_t E_V3_B_SO = vector_orthogonal(E_V2_B_S);
-    vector_t E_V3_B_SO_BP = vector_plus(E_V3_B_SO, B_I.position);
-    
-    add_line(R_I.position, B_I.position, Eins, 0.05);
-    add_line(z, B_I.position, zwei, 0.05);
-    add_line(E_V3_B_SO_BP, B_I.position, drei, 0.05);
-    
-
-    draw_lines();
-    
-}
-
-
-double update_skala(vector_t Da_will_ich_hinschießen,double SollAbstand){
-    ball_t B_I = ball();
-    robot_t R_I = robot();
-    
-    vector_t V1_B_Z = vector_minus(Da_will_ich_hinschießen, B_I.position);
-    vector_t V2_B_S = vector_times(V1_B_Z, -1);
-    double L_B_S = vector_length(V2_B_S);
-
-    vector_t E_V1_B_Z = vector_times(V1_B_Z, 1/vector_length(V1_B_Z));
-    vector_t E_V2_B_S = vector_times(V2_B_S, 1/L_B_S);
-    vector_t S_V2_B_S = vector_times(E_V2_B_S, SollAbstand);
-    vector_t S_V2_B_S_BP = vector_plus(S_V2_B_S, B_I.position);
-    
-    vector_t V1_R_B = vector_minus(R_I.position, B_I.position);
-    vector_t V1_R_S = vector_plus(V1_R_B, S_V2_B_S);
-    double L_R_S = vector_length(V1_R_S);
-    vector_t E_V1_R_S = vector_times(V1_R_S, 1/L_R_S);
-    
-    
-    return vector_scalar_product(E_V1_R_S, E_V1_B_Z);
-}
-
-
-void Ziel_Ort_anstreben(vector_t Da_will_ich_hinschießen,double SollAbstand){
-    
-    
-    ball_t B_I = ball();
-    robot_t R_I = robot();
-    
-    //B = Ballposition
-    //Z = Zielposition
-    //R = Roboterposition
-    //S = Sollposition
-    //SO = Sollpositionorthogonal
-    vector_t V1_B_Z = vector_minus(Da_will_ich_hinschießen, B_I.position);
-    vector_t V2_B_S = vector_times(V1_B_Z, -1);
-    double L_B_S = vector_length(V2_B_S);
-
-    vector_t E_V1_B_Z = vector_times(V1_B_Z, 1/vector_length(V1_B_Z));
-    vector_t E_V2_B_S = vector_times(V2_B_S, 1/L_B_S);
-    vector_t S_V2_B_S = vector_times(E_V2_B_S, SollAbstand);
-    vector_t S_V2_B_S_BP = vector_plus(S_V2_B_S, B_I.position);
-    
-    vector_t V1_R_B = vector_minus(R_I.position, B_I.position);
-    vector_t V1_R_S = vector_plus(V1_R_B, S_V2_B_S);
-    double L_R_S = vector_length(V1_R_S);
-    vector_t E_V1_R_S = vector_times(V1_R_S, 1/L_R_S);
-    
-    vector_t E_V3_B_SO = vector_orthogonal(E_V2_B_S);
-    vector_t E_V3_B_SO_BP = vector_plus(E_V3_B_SO, B_I.position);
-    
-    printf("%f \n", vector_scalar_product(E_V1_R_S, E_V1_B_Z));
-    while(update_skala(Da_will_ich_hinschießen, SollAbstand) > 0.05){
-        printf("%f \n", vector_scalar_product(E_V1_R_S, E_V1_B_Z));
-        set_position(E_V3_B_SO_BP, 0);
-        Vektoren_zeichnen(Da_will_ich_hinschießen, SollAbstand);
-    }
-    
-    Vektoren_zeichnen(Da_will_ich_hinschießen, SollAbstand);
-    double O_B_Z = vector_orientation(V1_B_Z);
-    set_position(S_V2_B_S_BP, O_B_Z);
-    
-    prepare_kick(0, 0);
-    
-};
-
-void Da_hin_schiessen(double x, double y, double w){
-    double SollAbstand = 0.4;
-    while(1){
-        ball_t Ball_Informationen = ball();
-        vector_t Da_will_ich_hinschießen = vector_create(1,1);
-        Ziel_Ort_anstreben(Da_will_ich_hinschießen, SollAbstand);
-        Ball_Informationen = ball();
-        if(    x-w/2 < Ball_Informationen.position.x
-            && x+w/2 > Ball_Informationen.position.x
-            && y-w/2 < Ball_Informationen.position.y
-            && y+w/2 > Ball_Informationen.position.y
-        ){
-            return;
-        }
-        
-    }
-}
-*/
 typedef enum{
      CATCHING
     ,MOVE_BALL_A
@@ -424,65 +242,7 @@ void schuss(vision_t* vision){
 
         advanced_targeting(B.position, Z, R.position, k_1_min, 0.7, -0.7);
 }
-/*
-void Torwart(){
-        while(1){
-        ball_t B;    
-        robot_t R;
-        vector_t v3;
-        double k;
-        double phi;
-        vector_t RB;
-        vector_t Torwart;
-        B = ball();
-        R = robot();
-        v3 = vector_create(-2.75,1.5);
-        k = B.position.y;
-        prepare_kick(0, -5);
-        phi = atan((B.position.y - R.position.y)/(B.position.x - R.position.x));
-        RB = vector_minus(R.position, B.position);
-        printf("das ist der Abstand%lf\n", vector_length(RB));
 
-        
-        
-        if(B.position.y > 0.5){
-            k = 0.5;
-        }
-        if(B.position.y < -0.5){
-            k = -0.5;
-        }
-        Torwart = vector_create(-2.75, k);
-        
-        
-        
-        if(vector_length(RB) < 0.19 ){
-            set_position(v3,0);
-        }
-        if(vector_length(RB) > 0.19 ){
-            set_position(Torwart, phi);
-        }
-        
-        
-    }
-}
-*/
-/*
-void test() {
-    vector_t Z = vector_create(-2.5, -1.0);
-    double k_1_min = 0.1;
-    double k_1_max = 0.5;
-    double k_2_max = 0.5;
-    prepare_kick(0, 0.0*kick_energy_max());
-    while(1){
-        vision_t v;
-        vision(&v);
-        vector_t B = v.ball.position;
-        vector_t R = v.robots[v.my_index].position;
-        advanced_targeting(B, Z, R, k_1_min, k_1_max, k_2_max);
-        draw_lines();
-    }
-}
-*/
 
 state_t process_state_catching(vision_t* vision){
         vector_t R = vision->robots[vision->my_index].position;
@@ -536,35 +296,6 @@ state_t process_state(vision_t* vision, state_t state){
         case MOVE_BALL_A: return process_state_move_ball_a(vision);
     };
 }
-/*
-void Twitter(){
-    while(1){
-     send_message("Hello there");
-     fetch_messages();
-     char message_buffer[256];
-     unsigned int sender_id;
-     unsigned int number_of_messages = messages_available();
-     
-    for(unsigned int i = 0; i < number_of_messages; ++i){
-            int r = get_message(
-                i
-                ,&sender_id
-                ,&message_buffer[0]
-                ,sizeof(message_buffer) / sizeof(message_buffer[0])
-            );
-            if(r > 0){
-                printf(
-                    "I got a message from %i: %s\n"
-                    , sender_id
-                    , message_buffer
-                );
-            }
-        }
-     
-        
-    }
-}*/
-
 vector_t WoDieMeistenGegenersind(vision_t* v){
     vector_t Durchschnitsskoordinate;
     for(int i=0;i < 10;i++){
